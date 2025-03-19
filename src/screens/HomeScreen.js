@@ -16,7 +16,7 @@ import { selectCurrentPosition } from '../redux/reducers/gameSelectore';
 import { resetGame } from '../redux/reducers/gameSlice';
 
 const HomeScreen = () => {
-   const dispatch =useDispatch();
+   const dispatch =useDispatch();// store mein value rakhne ke lie 
    const currentPosition =useSelector(selectCurrentPosition)
   const witchAnim =useRef(new Animated.Value(-deviceWidth)).current;
   const scaleAnim =useRef(new Animated.Value(-1)).current;
