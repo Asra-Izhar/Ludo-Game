@@ -22,7 +22,7 @@ const getSoundPath = soundName => {
     case 'home_win':
       return require('../assets/sfx/home_win.mp3');
     case 'pile_move':
-      return require('../assets/sfx/pile_move.mp3');
+      return require('../assets/sfx/pile_move.mp3')
     case 'safe_spot':
       return require('../assets/sfx/safe_spot.mp3');
     case 'ui':

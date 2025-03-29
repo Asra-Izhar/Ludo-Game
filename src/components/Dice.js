@@ -1,9 +1,15 @@
-import { View, Text, StyleSheet, Animated, Easing, Image } from 'react-native'
+import { View, Text, StyleSheet, Animated, Easing, Image, TouchableOpacity } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentPlayerChance, selectDiceNo, selectDiceRolled } from '../redux/reducers/gameSelectore';
-import BackgroundImage from '../helpers/GetIcons';
+// import {BackgroundImage} from '../helpers/GetIcons';
+import BackgroundImage from '../helpers/GetIcons'; // Updated to default import
 import LinearGradient from 'react-native-linear-gradient';
+import LottieView from 'lottie-react-native';
+import Arrow from '../assets/images/arrow.png';
+
+import DiceRoll from '../assets/animation/diceroll.json'
+import { playSound } from '../helpers/SoundUtility';
 
 
 const Dice = React.memo(({color,rotate,player,data})=> {
@@ -44,6 +50,10 @@ const Dice = React.memo(({color,rotate,player,data})=> {
     animateArrow();
   },[currentPlayerChance,isDiceRolled]);
 
+  const handleDicePress =async()=>{
+
+  }
+
   return (
     <View style={[styles.flexRow,{transform:[{scaleX:rotate?-1:1}]}]}>
      <View style={styles.border1}>
@@ -59,11 +69,51 @@ const Dice = React.memo(({color,rotate,player,data})=> {
       
      </LinearGradient>
      </View>
+
+     <View style={styles.border2}>
+      
+      <LinearGradient style={styles.diceGradient}
+      colors={['#aac8ab', '#aac8ab','#aac8ab']}
+      start={{x:1,y:0}}
+      end={{x:1,y:0.5}}>
+        <View  style={styles.diceContainer}>
+          {currentPlayerChance ==player ?(
+            <>
+            {diceRolling ? null :(
+              <TouchableOpacity
+              disabled={isDiceRolled}
+              activeOpacity={0.4}
+              onPress={handleDicePress}>
+              <Image source={diceIcon} style={styles.dice} />
+              </TouchableOpacity>
+            )}
+            </>
+          ):null}
+        </View>
+      </LinearGradient>
+     </View>
+{currentPlayerChance ===player && !isDiceRolled ?(
+  <Animated.View style={{transform: [{translateX:arrowAnim}]}}>
+    <Image source={Arrow} style={{width:30, height:30}}/>
+  </Animated.View>
+):null}
+
+  {currentPlayerChance ===player && diceRolling ?(
+    <LottieView
+    source={DiceRoll}
+    style={styles.rollingDice}
+    loop={false}
+    autoPlay
+    cacheComposition={true}
+    hardwareAccelerationAndroid />
+  ):null}
+
+
     
     </View>
-  )
-}
-)
+);
+});
+
 
 const styles=StyleSheet.create({
   flexRow:{
@@ -79,10 +129,10 @@ const styles=StyleSheet.create({
     backgroundColor:'#e8c0c1',
     borderWidth:1,
     borderRadius:5,
-    width:55,
-    height:55,
+    width:60,
+    height:70,
     paddingHorizontal:8,
-    padding:4,
+    paddingVertical:8,
     justifyContent:'center',
     alignItems:'center',
   },

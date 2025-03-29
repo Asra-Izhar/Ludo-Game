@@ -11,8 +11,9 @@ import StartGame from '../assets/images/start.png'
 import { useSelector } from 'react-redux';
 import { selectDiceTouch, selectPlayer1, selectPlayer2, selectPlayer3, selectPlayer4 } from '../redux/reducers/gameSelectore';
 import WinModal from '../components/WinModal';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from '../constants/Colors'; // Updated import
 import Dice from '../components/Dice';
+import Pocket from '../components/Pocket';
 
 const LudoBoardScreen = () => {
   const player1 =useSelector(selectPlayer1);
@@ -56,7 +57,7 @@ const LudoBoardScreen = () => {
         blinkAnimation.stop();
         setShowStartImage(false);
       },2500);
-      //clean up animation on component unmount or when focus is lost
+      //clean up animation on component unmount or when focus is lost2
 
       return()=>{
         blinkAnimation.stop();
@@ -82,8 +83,23 @@ const LudoBoardScreen = () => {
         <Dice color={Colors.yellow} player={3} data={player3} />
       
            </View>
-        <View style={styles.ludoBoard}></View>
-      <View>
+        <View style={styles.ludoBoard}>
+        <View style={styles.plotContainer}>
+        <Pocket  color={Colors.green} player={2} data={player2}/>
+        <Pocket  color={Colors.yellow} player={3} data={player3}/>
+        </View>
+        <View style={styles.pathContainer}>
+          
+          </View>
+          <View style={styles.plotContainer}>
+          <Pocket  color={Colors.red} player={1} data={player1}/>
+          <Pocket  color={Colors.blue} player={4} data={player4}/>
+
+</View>
+      </View>
+      <View
+        style={styles.flexRow}
+        pointerEvents={isDiceTouch ? 'none' : 'auto'}>
       <Dice color={Colors.red} player={1} data={player1} />
       <Dice color={Colors.blue} player={4} data={player4} />
       </View>
@@ -117,6 +133,7 @@ const LudoBoardScreen = () => {
 
 const styles =StyleSheet.create({
   container:{
+    
     alignSelf:'center',
     height:deviceHeight * 0.5,
     width:deviceWidth,
@@ -144,6 +161,20 @@ const styles =StyleSheet.create({
     alignItems:'center',
     flexDirection:'row',
     paddingHorizontal:30,
+  },
+  plotContainer:{
+    width:'100%',
+    height:'40%',
+    justifyContent:'space-between',
+    flexDirection:'row',
+    backgroundColor:'#ccc',
+  },
+  pathContainer:{
+    flexDirection:'row',
+    width:'100%',
+    height:'20%',
+    justifyContent:'space-between',
+    backgroundColor:'#1E5162',
   }
 })
 export default LudoBoardScreen
